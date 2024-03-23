@@ -1,38 +1,18 @@
 import pygame
 import os
 
-board = pygame.image.load(os.path.join("img", "board_alt.png"))
+from board import Board
+from piece import Bishop
 
-b_bishop = pygame.image.load(os.path.join("img", "black_bishop.png"))
-b_king = pygame.image.load(os.path.join("img", "black_king.png"))
-b_knight = pygame.image.load(os.path.join("img", "black_knight.png"))
-b_pawn = pygame.image.load(os.path.join("img", "black_pawn.png"))
-b_queen = pygame.image.load(os.path.join("img", "black_queen.png"))
-b_rook = pygame.image.load(os.path.join("img", "black_rook.png"))
-
-w_bishop = pygame.image.load(os.path.join("img", "white_bishop.png"))
-w_king = pygame.image.load(os.path.join("img", "white_king.png"))
-w_knight = pygame.image.load(os.path.join("img", "white_knight.png"))
-w_pawn = pygame.image.load(os.path.join("img", "white_pawn.png"))
-w_queen = pygame.image.load(os.path.join("img", "white_queen.png"))
-w_rook = pygame.image.load(os.path.join("img", "white_rook.png"))
-
-b = [b_bishop, b_king, b_knight, b_pawn, b_queen, b_rook]
-w = [w_bishop, w_king, w_knight, w_pawn, w_queen, w_rook]
-
-B = []
-W = []
-
-for img in b:
-    B.append(pygame.transform.scale2x(img))
-
-for img in w:
-    W.append(pygame.transform.scale2x(img))
-
+board = pygame.transform.scale(pygame.image.load(os.path.join("img", "board_alt.png")), (780, 780))
+rect = (115, 115, 550, 550)
 
 def redraw_gameWindow():
     global win
+
     win.blit(board, (0, 0))
+    bo = Board(8, 8)
+    bo.draw(win)
 
     pygame.display.update()
 
@@ -49,6 +29,8 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                run = False
+                quit()
                 pygame.quit()
 
             if event.type == pygame.MOUSEMOTION:
@@ -58,8 +40,8 @@ def main():
                 pass
 
 
-width = 500
-height = 500
+width = 780
+height = 780
 
 win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Xadrez Multiplayer Online")
