@@ -22,10 +22,10 @@ B = []
 W = []
 
 for img in b:
-    B.append(pygame.transform.scale(img, (75, 75)))
+    B.append(pygame.transform.scale(img, (50, 50)))
 
 for img in w:
-    W.append(pygame.transform.scale(img, (75, 75)))
+    W.append(pygame.transform.scale(img, (50, 50)))
 
 
 class Piece:
@@ -52,8 +52,14 @@ class Piece:
         else:
             drawThis = B[self.img]
 
-        x = round(self.startX + (self.col * self.rect[2] / 8))
-        y = round(self.startY + (self.row * self.rect[2] / 8))
+        # ajusta as pedra no tabuleiro
+        # esquerda e direita
+        x = 10 + round(self.startX + (self.col * self.rect[2] / 8))
+        # para cima e para baixo
+        y = 11 + round(self.startY + (self.row * self.rect[3] / 8))
+
+        if self.selected:
+            pygame.draw.rect(win, (255, 0, 0), (x, y, 55, 55), 2)
 
         win.blit(drawThis, (x, y))
 

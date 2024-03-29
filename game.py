@@ -8,18 +8,32 @@ board = pygame.transform.scale(pygame.image.load(os.path.join("img", "board_alt.
 rect = (115, 115, 550, 550)
 
 def redraw_gameWindow():
-    global win
+    global win, bo
 
     win.blit(board, (0, 0))
-    bo = Board(8, 8)
     bo.draw(win)
 
     pygame.display.update()
 
+def click(pos):
+    """
+    :return: pos(x, y) in range 0-7 7-0
+    """
+    x = pos[0]
+    y = pos[1]
+
+    if rect[0] < x < rect[0] + rect[2]:
+        if rect[1] < y < rect[1] + rect[3]:
+            divX = x - rect[0]
+            divY = y - rect[0]
+            i = int(divX / (rect[2] / 8))
+            j = int(divY / (rect[3] / 8))
+            return i, j
 
 def main():
+    global bo
+    bo = Board(8, 8)
     clock = pygame.time.Clock()
-
     run = True
 
     while run:
@@ -37,7 +51,9 @@ def main():
                 pass
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                pos = pygame.mouse.get_pos()
+                i, j = click(pos)
+                bo.board[j][i].selected = True
 
 
 width = 780
