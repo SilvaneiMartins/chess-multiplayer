@@ -11,7 +11,7 @@ def redraw_gameWindow():
     global win, bo
 
     win.blit(board, (0, 0))
-    bo.draw(win)
+    bo.draw(win, bo.board)
 
     pygame.display.update()
 
@@ -53,7 +53,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 i, j = click(pos)
-                bo.board[j][i].selected = True
+                # bo.board[i][j].selected = True
+                bo.select(i, j)
 
 
 width = 780

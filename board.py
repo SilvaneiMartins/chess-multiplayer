@@ -1,5 +1,6 @@
 from piece import Bishop, King, Knight, Pawn, Queen, Rook
 
+
 class Board:
     def __init__(self, rows, cols):
         self.rows = rows
@@ -43,16 +44,23 @@ class Board:
         self.board[6][6] = Pawn(6, 6, "w")
         self.board[6][7] = Pawn(6, 7, "w")
 
-    def draw(self, win):
+    def draw(self, win, board):
         for i in range(self.rows):
             for j in range(self.rows):
                 if self.board[i][j] != 0:
-                    self.board[i][j].draw(win)
+                    self.board[i][j].draw(win, board)
 
-    def select(self, i, j):
+    def select(self, cols, rows):
         for i in range(self.rows):
-            for j in range(self.rows):
+            for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].selected = False
 
-        self.board[i][j].selected = True
+        if self.board[rows][cols] != 0:
+            self.board[rows][cols].selected = True
+
+    def move(self, start, end):
+        removed = self.board[end[1]][end[0]]
+        self.board[end[1]][end[0]] = self.board[start[1]][start[0]]
+        self.board[start[1]][start[0]] = 0
+        return removed
