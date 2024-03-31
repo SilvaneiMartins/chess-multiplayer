@@ -85,22 +85,22 @@ class King(Piece):
 
         moves = []
 
-        if i < 7:
+        if i > 0:
             # PRA CIMA E ESQUERDA
             if j > 0:
-                moves.append((j - 1, i - 1))
+                moves.append((j - 1, i - 1,))
 
         # PRA CIMA E MEIO
             moves.append((j, i - 1))
 
         # PRA CIMA E DIREITA
             if j < 7:
-                moves.append((j + 1, i - 1))
+                moves.append((j + 1, i - 1,))
 
         if i < 7:
             # FUNDO e ESQUERDA
             if j > 0:
-                moves.append((j - 1, i + 1))
+                moves.append((j - 1, i + 1,))
 
             # FUNDO e MEIO
             moves.append((j, i + 1))
@@ -128,14 +128,15 @@ class Knight(Piece):
         j = self.col
 
         moves = []
+
         # BAIXO e ESQUERDA
-        if i < 6 and j < 0:
+        if i < 6 and j > 0:
             p = board[i + 2][j - 1]
             if p == 0:
                 moves.append((j - 1, i + 2))
 
         # CIMA e ESQUERDA
-        if i > 1 and j < 0:
+        if i > 1 and j > 0:
             p = board[i - 2][j - 1]
             if p == 0:
                 moves.append((j - 1, i - 2))
@@ -147,10 +148,30 @@ class Knight(Piece):
                 moves.append((j + 1, i + 2))
 
         # CIMA e DIREITA
-        if i > 2 and j < 7:
+        if i > 1 and j < 7:
             p = board[i - 2][j + 1]
             if p == 0:
                 moves.append((j + 1, i - 2))
+
+        if i > 0 and j > 1:
+            p = board[i - 1][j - 2]
+            if p == 0:
+                moves.append((j - 2, i - 1))
+
+        if i > 0 and j < 6:
+            p = board[i - 1][j + 2]
+            if p == 0:
+                moves.append((j + 2, i - 1))
+
+        if i < 7 and j > 1:
+            p = board[i + 1][j - 2]
+            if p == 0:
+                moves.append((j - 2, i + 1))
+
+        if i < 7 and j < 6:
+            p = board[i + 1][j + 2]
+            if p == 0:
+                moves.append((j + 2, i + 1))
 
         return moves
 
@@ -162,12 +183,14 @@ class Pawn(Piece):
         super().__init__(row, col, color)
         self.first = True
         self.queen = False
+        self.pawn = True
 
     def valid_moves(self, board):
         i = self.row
         j = self.col
 
         moves = []
+
         if self.first:
             if i < 6:
                 p = board[i + 2][j]
@@ -214,29 +237,29 @@ class Rook(Piece):
         moves = []
 
         # CIMA
-        for x in range(i, -1, -1):
-            p = board[i][j]
+        for x in range(i - 1, -1, -1):
+            p = board[x][j]
             if p == 0:
                 moves.append((j, x))
                 break
 
         # BAIXO
-        for x in range(i, 8, 1):
-            p = board[i][j]
+        for x in range(i + 1, 8, 1):
+            p = board[x][j]
             if p == 0:
                 moves.append((j, x))
                 break
 
         # ESQUERDA
-        for x in range(j, -1, -1):
-            p = board[i][j]
+        for x in range(j - 1, -1, -1):
+            p = board[i][x]
             if p == 0:
                 moves.append((x, i))
                 break
 
         # DIREITA
-        for x in range(j, 8, 1):
-            p = board[i][j]
+        for x in range(j + 1, 8, 1):
+            p = board[i][x]
             if p == 0:
                 moves.append((x, i))
                 break
